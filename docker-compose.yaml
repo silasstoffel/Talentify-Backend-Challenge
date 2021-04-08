@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+
+  backend:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www
+    environment:
+      PHP_EXTENSION_PDOSQLITE: 1
+      PHP_EXTENSION_PDO_SQLITE: 1
+    networks:
+      - app-network
+
+  db-mysql:
+    image: mysql:5.7.22
+    ports:
+      - "3306:3306"
+    volumes:
+      - .docker/db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: talentify
+      MYSQL_ROOT_PASSWORD: talentify
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
