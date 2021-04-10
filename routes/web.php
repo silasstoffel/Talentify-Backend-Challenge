@@ -7,12 +7,13 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-// Create recruite
+// Create recruiter
 $router->post('recruiters', 'RecruiterController@store');
+
+$router->post('auth', 'LoginController@store');
 
 
 // Endpoints protected
-
 $v1 = ['prefix' => '/v1', 'middleware' => null];
 
 $router->group($v1, function () use ($router) {
