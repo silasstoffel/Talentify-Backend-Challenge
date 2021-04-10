@@ -2,9 +2,13 @@
 
 namespace App\Providers;
 
-use App\Models\User;
-use Illuminate\Support\Facades\Gate;
+use Exception;
+use Illuminate\Auth\GenericUser;
 use Illuminate\Support\ServiceProvider;
+use Talentify\Application\Account\AccountTokenValidate;
+use Talentify\Domain\Account\Account;
+use Talentify\Infra\Account\AccountRepository;
+use Talentify\Infra\Services\ServiceTokenManager;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,15 +29,34 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Here you may define how you wish users to be authenticated for your Lumen
-        // application. The callback which receives the incoming request instance
-        // should return either a User instance or null. You're free to obtain
-        // the User instance via an API token or any other method necessary.
-
         $this->app['auth']->viaRequest('api', function ($request) {
-            if ($request->input('api_token')) {
-                return User::where('api_token', $request->input('api_token'))->first();
+
+            if (!$request->hasHeader('Authorization')) {
+                return null;
             }
+
+            $authorization = $request->header('Authorization', null);
+            $jwt = str_replace('Bearer ', '', $authorization);
+
+            $serviceToken = new AccountTokenValidate(
+                new AccountRepository(),
+                new ServiceTokenManager(env('JWT_SECRET')),
+            );
+
+            try {
+                $serviceToken->validate($jwt);
+                $account = $serviceToken->getAccountValidate();
+                if ($account instanceof Account) {
+                    return new GenericUser([
+                        'id' => $account->getId(),
+                        'name' => $account->getName(),
+                        'email' => $account->getEmail(),
+                    ]);
+                }
+            } catch (Exception $e) {
+                return null;
+            }
+            return null;
         });
     }
 }

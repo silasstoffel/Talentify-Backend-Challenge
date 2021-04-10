@@ -4,8 +4,10 @@
 namespace Talentify\Domain\Services;
 
 
+use stdClass;
+
 interface ServiceTokenManagerInterface
 {
     public function create(array $data): string;
-    //public function isValid(): bool;
+    public function decode(string $token): ?stdClass;
 }

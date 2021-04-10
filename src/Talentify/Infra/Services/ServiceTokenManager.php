@@ -6,7 +6,9 @@ namespace Talentify\Infra\Services;
 
 use DateInterval;
 use DateTime;
+use Exception;
 use Firebase\JWT\JWT;
+use stdClass;
 use Talentify\Domain\Services\ServiceTokenManagerInterface;
 
 class ServiceTokenManager implements ServiceTokenManagerInterface
@@ -28,7 +30,7 @@ class ServiceTokenManager implements ServiceTokenManagerInterface
 
     /**
      * Create token
-     * @throws \Exception
+     * @throws Exception
      */
     public function create(array $data): string
     {
@@ -43,5 +45,22 @@ class ServiceTokenManager implements ServiceTokenManagerInterface
             'exp' => $date->getTimestamp(),
             'iss' => null,
         ], $this->secret);
+    }
+
+    /**
+     * @param string $token token
+     * @return null|stdClass
+     */
+    public function decode(string $token): ?stdClass
+    {
+        try {
+            $decoded = JWT::decode($token, $this->secret, ['HS256']);
+            if (isset($decoded->data)) {
+                return $decoded->data;
+            }
+        } catch (Exception $ex) {
+            return null;
+        }
+        return null;
     }
 }

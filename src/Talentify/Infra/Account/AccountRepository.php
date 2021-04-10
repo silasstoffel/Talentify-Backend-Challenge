@@ -52,4 +52,26 @@ class AccountRepository implements CreateAccountRepositoryInterface
         }
         return null;
     }
+
+    /**
+     * Find account by id
+     * @param string $id id
+     * @return Account|null
+     */
+    public function findById(string $id): ?Account
+    {
+        $result = AccountModel::find($id);
+        if (isset($result->id)) {
+            $mail = new Email($result->email);
+            return new Account(
+                $result->id,
+                $result->name,
+                $mail,
+                $result->password,
+                $result->profile,
+                $result->key
+            );
+        }
+        return null;
+    }
 }

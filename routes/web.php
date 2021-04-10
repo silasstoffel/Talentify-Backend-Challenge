@@ -14,7 +14,7 @@ $router->post('auth', 'LoginController@store');
 
 
 // Endpoints protected
-$v1 = ['prefix' => '/v1', 'middleware' => null];
+$v1 = ['prefix' => '/v1', 'middleware' => 'auth'];
 
 $router->group($v1, function () use ($router) {
     // Opportunities

@@ -9,4 +9,6 @@ interface CreateAccountRepositoryInterface
 
     public function findByEmail(string $email): ?Account;
 
+    public function findById(string $id): ?Account;
+
 }
