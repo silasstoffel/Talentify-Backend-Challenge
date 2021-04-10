@@ -34,12 +34,12 @@ class Recruiter
     }
 
     public static function createWithString(
-        ?int $recruiterId,
+        ?string $recruiterId,
         string $recruiterName,
         string $recruiterEmail,
         string $companyName,
-        ?int $companyId = null
-    )
+        ?string $companyId = null
+    ): Recruiter
     {
         $company = new Company($companyId, $companyName);
         $email = new Email($recruiterEmail);
@@ -82,5 +82,4 @@ class Recruiter
     {
         return $this->company;
     }
-
 }

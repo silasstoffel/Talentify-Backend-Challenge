@@ -36,6 +36,11 @@ class CreateRecruiter
 
     public function create(CreateRecruiterDto $recruiterDto): Recruiter
     {
+        $recruiter = $this->recruiterRepository->findByEmail($recruiterDto->getEmail());
+        if (!is_null($recruiter)) {
+            throw new DomainException('The e-mail address entered is linked to another company.', 400);
+        }
+
         return $this->recruiterRepository->create(
             $this->dtoToRecruiter($recruiterDto)
         );

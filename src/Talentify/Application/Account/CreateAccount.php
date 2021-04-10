@@ -38,7 +38,7 @@ class CreateAccount
      * @param CreateAccountDto $accountDto
      * @return Account account created.
      */
-    public function create(CreateAccountDto $accountDto)
+    public function create(CreateAccountDto $accountDto): Account
     {
         if (!strlen($accountDto->getPassword())) {
             throw  new DomainException('Password is required.', 400);
