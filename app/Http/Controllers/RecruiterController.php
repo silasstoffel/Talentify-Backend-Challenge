@@ -13,7 +13,7 @@ use Talentify\Application\Recruiter\CreateRecruiter;
 use Talentify\Application\Recruiter\CreateRecruiterDto;
 use Talentify\Infra\Account\AccountRepository;
 use Talentify\Infra\Company\CompanyRepository;
-use Talentify\Infra\Recruiter\CreateRecruiterRepository;
+use Talentify\Infra\Recruiter\RecruiterRepository;
 use Talentify\Infra\Services\ServiceHashCreator;
 use Talentify\Infra\Services\UuidCreator;
 use TypeError;
@@ -24,7 +24,7 @@ class RecruiterController extends Controller
     {
         $uuidCreator = new UuidCreator();
         $useCaseRecruiter = new CreateRecruiter(
-            new CreateRecruiterRepository(),
+            new RecruiterRepository(),
             new CompanyRepository(),
             $uuidCreator
         );

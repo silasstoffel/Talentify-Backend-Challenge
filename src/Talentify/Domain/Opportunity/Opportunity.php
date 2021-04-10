@@ -4,6 +4,7 @@ namespace Talentify\Domain\Opportunity;
 
 use DomainException;
 use Talentify\Domain\Company\Company;
+use Talentify\Domain\Recruiter\Recruiter;
 
 class Opportunity
 {
@@ -11,7 +12,7 @@ class Opportunity
     const STATUS_FINISHED = 'finished';
     const STATUS_INACTIVE = 'inactive';
 
-    private ?int $id;
+    private ?string $id;
     private string $title;
     private string $description;
     private string $status;
@@ -22,7 +23,7 @@ class Opportunity
 
     /**
      * Opportunity constructor.
-     * @param ?int $id ID
+     * @param ?string $id ID
      * @param string $title Title
      * @param string $description description
      * @param string $status status (open, finished, inactive)
@@ -32,7 +33,7 @@ class Opportunity
      * @param Recruiter $recruiter recruiter
      */
     public function __construct(
-        ?int $id,
+        ?string $id,
         string $title,
         string $description,
         string $status,
@@ -44,18 +45,18 @@ class Opportunity
     {
         $this->setStatus($status);
         $this->id = $id;
-        $this->title = $title;
+        $this->setTitle($title);
         $this->description = $description;
-        $this->address = $address;
-        $this->salary = $salary;
+        $this->setAddress($address);
+        $this->setSalary($salary);
         $this->company = $company;
         $this->recruiter = $recruiter;
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }
@@ -66,6 +67,17 @@ class Opportunity
     public function getTitle(): string
     {
         return $this->title;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle(string $title): void
+    {
+        if (!strlen(trim($title))) {
+            throw new DomainException('Title is required.', 400);
+        }
+        $this->title = $title;
     }
 
     /**
@@ -93,12 +105,35 @@ class Opportunity
     }
 
     /**
+     * @param string $address
+     */
+    public function setAddress(string $address): void
+    {
+        if (!strlen(trim($address))) {
+            throw new DomainException('Address is required.', 400);
+        }
+        $this->address = $address;
+    }
+
+    /**
      * @return float
      */
     public function getSalary(): float
     {
         return $this->salary;
     }
+
+    /**
+     * @param float $salary
+     */
+    public function setSalary(float $salary): void
+    {
+        if (!$salary) {
+            throw new DomainException('Salary must be greater than 0.', 400);
+        }
+        $this->salary = $salary;
+    }
+
 
     /**
      * @return Company

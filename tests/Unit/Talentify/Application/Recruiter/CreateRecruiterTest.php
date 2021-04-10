@@ -7,7 +7,7 @@ use Talentify\Application\Recruiter\CreateRecruiter;
 use Talentify\Application\Recruiter\CreateRecruiterDto;
 use Talentify\Domain\Recruiter\Recruiter;
 use Talentify\Infra\Company\CompanyRepository;
-use Talentify\Infra\Recruiter\CreateRecruiterRepository;
+use Talentify\Infra\Recruiter\RecruiterRepository;
 use Talentify\Infra\Services\UuidCreator;
 use TestCase;
 
@@ -101,13 +101,13 @@ class CreateRecruiterTest extends TestCase
         $useCase->create($dto);
     }
 
-    private function getRecruiterRepository($createdReturn = null, $findByEmailReturn = null): CreateRecruiterRepository
+    private function getRecruiterRepository($createdReturn = null, $findByEmailReturn = null): RecruiterRepository
     {
-        $repository = $this->createMock(CreateRecruiterRepository::class);
+        $repository = $this->createMock(RecruiterRepository::class);
         $repository->method('create')->willReturn($createdReturn);
 
         $repository->method('findByEmail')->willReturn($findByEmailReturn);
-        /**@var CreateRecruiterRepository $repository */
+        /**@var RecruiterRepository $repository */
         return $repository;
     }
 

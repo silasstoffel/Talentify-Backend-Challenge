@@ -7,24 +7,24 @@ namespace Talentify\Application\Recruiter;
 use DomainException;
 use Talentify\Domain\Company\CompanyRepositoryInterface;
 use Talentify\Domain\Email;
-use Talentify\Domain\Recruiter\CreateRecruiterRepositoryInterface;
+use Talentify\Domain\Recruiter\RecruiterRepositoryInterface;
 use Talentify\Domain\Recruiter\Recruiter;
 use Talentify\Domain\Services\ServiceIdGeneratorInterface;
 
 class CreateRecruiter
 {
-    private CreateRecruiterRepositoryInterface $recruiterRepository;
+    private RecruiterRepositoryInterface $recruiterRepository;
     private ServiceIdGeneratorInterface $uuid;
     private CompanyRepositoryInterface $companyRepository;
 
     /**
      * CreateRecruiter constructor.
-     * @param CreateRecruiterRepositoryInterface $recruiterRepository
+     * @param RecruiterRepositoryInterface $recruiterRepository
      * @param CompanyRepositoryInterface $companyRepository
      * @param ServiceIdGeneratorInterface $uuid
      */
     public function __construct(
-        CreateRecruiterRepositoryInterface $recruiterRepository,
+        RecruiterRepositoryInterface $recruiterRepository,
         CompanyRepositoryInterface $companyRepository,
         ServiceIdGeneratorInterface $uuid
     )

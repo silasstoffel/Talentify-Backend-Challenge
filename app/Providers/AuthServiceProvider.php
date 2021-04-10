@@ -51,6 +51,8 @@ class AuthServiceProvider extends ServiceProvider
                         'id' => $account->getId(),
                         'name' => $account->getName(),
                         'email' => $account->getEmail(),
+                        'profile' => $account->getProfile(),
+                        'key' => $account->getKey()
                     ]);
                 }
             } catch (Exception $e) {
