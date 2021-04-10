@@ -2,18 +2,21 @@
 
 namespace Talentify\Domain\Account;
 
+use DomainException;
+use Talentify\Domain\Email;
+
 class Account
 {
-    private ?int $id;
+    private ?string $id = null;
     private string $name;
     private Email $email;
-    private string $password;
+    private ?string $password = null;
     private string $profile;
     private string $key;
 
     /**
      * Account constructor.
-     * @param int|null $id
+     * @param string $id
      * @param string $name
      * @param Email $email
      * @param string $password
@@ -21,7 +24,7 @@ class Account
      * @param string $key
      */
     public function __construct(
-        ?int $id,
+        ?string $id,
         string $name,
         Email $email,
         string $password,
@@ -30,17 +33,17 @@ class Account
     )
     {
         $this->id = $id;
-        $this->name = $name;
+        $this->setName($name);
         $this->email = $email;
-        $this->password = $password;
+        $this->setPassword($password);
         $this->profile = $profile;
         $this->key = $key;
     }
 
     /**
-     * @return int|null
+     * @return null|string
      */
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -52,6 +55,18 @@ class Account
     {
         return $this->name;
     }
+
+    /**
+     * @param string $name name
+     */
+    private function setName(string $name): void
+    {
+        if (!strlen($name)) {
+            throw new DomainException('Name is required.', 400);
+        }
+        $this->name = $name;
+    }
+
 
     /**
      * @return Email
@@ -67,6 +82,17 @@ class Account
     public function getPassword(): string
     {
         return $this->password;
+    }
+
+    /**
+     * @param string $password password
+     */
+    private function setPassword(string $password): void
+    {
+        if (strlen($this->getId()) && empty($password)) {
+            throw new DomainException('Password is required.', 400);
+        }
+        $this->password = $password;
     }
 
     /**

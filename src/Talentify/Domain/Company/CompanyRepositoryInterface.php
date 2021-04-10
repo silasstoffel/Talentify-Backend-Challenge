@@ -3,10 +3,7 @@
 
 namespace Talentify\Domain\Company;
 
-use Talentify\Domain\Company\Company;
-
-
-interface CompanyRepository
+interface CompanyRepositoryInterface
 {
     public function findById(string $id): ?Company;
 }

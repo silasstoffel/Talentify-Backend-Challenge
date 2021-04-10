@@ -6,7 +6,7 @@ namespace Talentify\Domain\Company;
 
 class Company
 {
-    private ?int $id;
+    private ?string $id;
     private string $name;
 
     /**
@@ -14,16 +14,16 @@ class Company
      * @param int|null $id
      * @param string $name
      */
-    public function __construct(?int $id, string $name)
+    public function __construct(?string $id, string $name)
     {
         $this->id = $id;
         $this->name = $name;
     }
 
     /**
-     * @return int|null
+     * @return string|null
      */
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }

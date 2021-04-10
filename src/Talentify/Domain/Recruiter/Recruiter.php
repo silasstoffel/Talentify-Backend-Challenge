@@ -8,20 +8,20 @@ use Talentify\Domain\Company\Company;
 
 class Recruiter
 {
-    private ?int $id;
+    private ?string $id;
     private string $name;
     private Email $email;
     private Company $company;
 
     /**
      * Recruiter constructor.
-     * @param int|null $id
+     * @param int|string $id
      * @param string $name
      * @param Email $email
      * @param Company $company
      */
     public function __construct(
-        ?int $id,
+        ?string $id,
         string $name,
         Email $email,
         Company $company
@@ -52,9 +52,9 @@ class Recruiter
     }
 
     /**
-     * @return int|null
+     * @return int|string
      */
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
