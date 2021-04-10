@@ -6,7 +6,6 @@ namespace Talentify\Infra\Opportunities;
 
 use App\Models\Opportunity as OpportunityModel;
 use DomainException;
-use stdClass;
 use Talentify\Domain\Company\Company;
 use Talentify\Domain\Opportunity\Opportunity;
 use Talentify\Domain\Opportunity\OpportunityRepositoryInterface;
@@ -91,18 +90,18 @@ class OpportunityRepository implements OpportunityRepositoryInterface
         $record->delete();
     }
 
-    private function toOpportunity(stdClass $opportunity): Opportunity
+    private function toOpportunity($opportunity): Opportunity
     {
         $company = new Company(
             $opportunity->company->id,
-            $opportunity->company->title
+            $opportunity->company->name
         );
 
         $recruiter = Recruiter::createWithString(
             $opportunity->recruiter->id,
             $opportunity->recruiter->name,
             $opportunity->recruiter->email,
-            $opportunity->company->title,
+            $opportunity->company->name,
             $opportunity->company->id
         );
 

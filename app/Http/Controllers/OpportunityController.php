@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 
 
 use DomainException;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Talentify\Application\Opportunity\CreateOpportunity;
 use Talentify\Application\Opportunity\ListOpportunities;
 use Talentify\Application\Opportunity\LoadOpportunity;
 use Talentify\Application\Opportunity\OpportunityDto;
+use Talentify\Application\Opportunity\UpdateOpportunity;
 use Talentify\Domain\Opportunity\Opportunity;
 use Talentify\Domain\Opportunity\OpportunityRepositoryInterface;
 use Talentify\Infra\Opportunities\OpportunityRepository;
@@ -44,7 +46,7 @@ class OpportunityController extends Controller
                 $response[] = $this->recruiterToResponse($item);
             }
             return $this->responseSuccess($items, 200);
-        } catch (DomainException | \Exception $e) {
+        } catch (DomainException | Exception $e) {
             return $this->responseUserError($e->getMessage());
         } catch (TypeError $e) {
             return $this->responseAppError('We are sorry, but for technical reasons it is possible to complete the request.');
@@ -59,7 +61,7 @@ class OpportunityController extends Controller
             $useCase = new LoadOpportunity($this->repository);
             $opportunity = $useCase->load($id, $recruiterId );
             return $this->responseSuccess($opportunity, 200);
-        } catch (DomainException | \Exception $e) {
+        } catch (DomainException | Exception $e) {
             return $this->responseUserError($e->getMessage(), 400);
         } catch (TypeError $e) {
             return $this->responseAppError('We are sorry, but for technical reasons it is possible to complete the request.');
@@ -91,16 +93,43 @@ class OpportunityController extends Controller
             $opportunity = $useCase->create($dto);
             $res = $this->recruiterToResponse($opportunity);
             return $this->responseSuccess($res, 201);
-        } catch (DomainException | \Exception $e) {
+        } catch (DomainException | Exception $e) {
             return $this->responseUserError($e->getMessage(), 400);
         } catch (TypeError $e) {
             return $this->responseAppError('We are sorry, but for technical reasons it is possible to complete the request.');
         }
     }
 
-    public function update()
+    public function update(Request $request, string $id)
     {
-        return $this->responseSuccess([], 204);
+        $account = Auth::user();
+        $recruiterId = $account->key;
+
+        $dto = new OpportunityDto(
+            $id,
+            $request->title,
+            $request->description,
+            $request->status,
+            $request->salary,
+            '',
+            $recruiterId,
+            $request->address
+        );
+
+        try {
+            $useCase = new UpdateOpportunity(
+                new OpportunityRepository(),
+                new RecruiterRepository()
+            );
+            $opportunity = $useCase->execute($dto);
+            $res = $this->recruiterToResponse($opportunity);
+            return $this->responseSuccess($res);
+        } catch (DomainException | Exception $e) {
+            return $this->responseUserError($e->getMessage(), 400);
+        } catch (TypeError $e) {
+            throw $e;
+            return $this->responseAppError('We are sorry, but for technical reasons it is possible to complete the request.');
+        }
     }
 
     private function recruiterToResponse(Opportunity $item): array {
