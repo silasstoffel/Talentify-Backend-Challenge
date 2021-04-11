@@ -12,6 +12,7 @@ $router->post('recruiters', 'RecruiterController@store');
 
 $router->post('auth', 'LoginController@store');
 
+$router->get('/jobs', 'OpportunitesFilterController@index');
 
 // Endpoints protected
 $v1 = ['prefix' => '/v1', 'middleware' => 'auth'];
@@ -25,5 +26,4 @@ $router->group($v1, function () use ($router) {
         $router->put('/{id}', 'OpportunityController@update');
         $router->delete('/{id}', 'OpportunityController@delete');
     });
-
 });
