@@ -9,7 +9,7 @@ use Talentify\Domain\Opportunity\Opportunity;
 
 class SearchJob
 {
-    public FilterOpportunitiesInterface $repository;
+    private FilterOpportunitiesInterface $repository;
 
     /**
      * SearchJob constructor.
@@ -22,10 +22,10 @@ class SearchJob
 
     /**
      * @param SearchJobsDto $dto Dto
-     * @return Opportunity[
+     * @return Opportunity[]
      */
     public function search(SearchJobsDto $dto): array
     {
-        return [];
+        return $this->repository->filter($dto);
     }
 }

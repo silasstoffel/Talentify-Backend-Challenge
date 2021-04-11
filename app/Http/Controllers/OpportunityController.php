@@ -32,7 +32,7 @@ class OpportunityController extends Controller
      */
     public function __construct()
     {
-        $this->repository =  new OpportunityRepository();
+        $this->repository = new OpportunityRepository();
     }
 
     public function index()
@@ -61,7 +61,7 @@ class OpportunityController extends Controller
         $recruiterId = $account->key;
         try {
             $useCase = new LoadOpportunity($this->repository);
-            $opportunity = $useCase->load($id, $recruiterId );
+            $opportunity = $useCase->load($id, $recruiterId);
             $res = $this->opportunityToResponse($opportunity);
             return $this->responseSuccess($res);
         } catch (DomainException | Exception $e) {
@@ -145,7 +145,7 @@ class OpportunityController extends Controller
                 new RecruiterRepository()
             );
             $useCase->execute($opportunityDto);
-            return $this->responseSuccess(null,204);
+            return $this->responseSuccess(null, 204);
         } catch (DomainException | Exception $e) {
             return $this->responseUserError($e->getMessage(), 400);
         } catch (TypeError $e) {
@@ -153,7 +153,8 @@ class OpportunityController extends Controller
         }
     }
 
-    private function opportunityToResponse(Opportunity $item): array {
+    private function opportunityToResponse(Opportunity $item): array
+    {
         return [
             'id' => $item->getId(),
             'title' => $item->getTitle(),
@@ -170,7 +171,7 @@ class OpportunityController extends Controller
             'recruiter' => [
                 'id' => $item->getRecruiter()->getId(),
                 'name' => $item->getRecruiter()->getName(),
-                'email' => (string) $item->getRecruiter()->getEmail(),
+                'email' => (string)$item->getRecruiter()->getEmail(),
                 'company_id' => $item->getRecruiter()->getCompany()->getId(),
             ]
         ];

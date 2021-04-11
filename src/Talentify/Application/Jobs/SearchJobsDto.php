@@ -6,24 +6,26 @@ namespace Talentify\Application\Jobs;
 
 class SearchJobsDto
 {
-    public ?string $address;
-    public ?string $salary;
-    public ?string $company;
-    public ?string $keyword;
+    private ?string $address;
+    private ?string $salary;
+    private ?string $companyName;
+    private ?string $keyword;
+    private array $status;
 
     /**
      * SearchJobsDto constructor.
      * @param string|null $address
      * @param string|null $salary
-     * @param string|null $company
+     * @param string|null $companyName
      * @param string|null $keyword
      */
-    public function __construct(?string $address, ?string $salary, ?string $company, ?string $keyword)
+    public function __construct(?string $address, ?string $salary, ?string $companyName, ?string $keyword, array $status = ['*'])
     {
         $this->address = $address;
         $this->salary = $salary;
-        $this->company = $company;
+        $this->companyName = $companyName;
         $this->keyword = $keyword;
+        $this->status = $status;
     }
 
     /**
@@ -45,9 +47,9 @@ class SearchJobsDto
     /**
      * @return string|null
      */
-    public function getCompany(): ?string
+    public function getCompanyName(): ?string
     {
-        return $this->company;
+        return $this->companyName;
     }
 
     /**
@@ -56,5 +58,13 @@ class SearchJobsDto
     public function getKeyword(): ?string
     {
         return $this->keyword;
+    }
+
+    /**
+     * @return array
+     */
+    public function getStatus(): array
+    {
+        return $this->status;
     }
 }

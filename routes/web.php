@@ -12,7 +12,7 @@ $router->post('recruiters', 'RecruiterController@store');
 
 $router->post('auth', 'LoginController@store');
 
-$router->get('/jobs', 'OpportunitesFilterController@index');
+$router->get('/jobs', 'OpportunitiesFilterController@index');
 
 // Endpoints protected
 $v1 = ['prefix' => '/v1', 'middleware' => 'auth'];

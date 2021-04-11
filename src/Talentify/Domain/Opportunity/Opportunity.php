@@ -8,7 +8,7 @@ use Talentify\Domain\Recruiter\Recruiter;
 
 class Opportunity
 {
-    const STATUS_OPEN = 'open';
+    const STATUS_OPEN = 'opened';
     const STATUS_FINISHED = 'finished';
     const STATUS_INACTIVE = 'inactive';
 
