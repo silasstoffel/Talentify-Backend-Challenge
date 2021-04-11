@@ -45,9 +45,9 @@ class OpportunityController extends Controller
             /** @var Opportunity[] $items */
             $items = $opportunities->list($recruiterId);
             foreach ($items as $item) {
-                $response[] = $this->recruiterToResponse($item);
+                $response[] = $this->oportunityToResponse($item);
             }
-            return $this->responseSuccess($items, 200);
+            return $this->responseSuccess($response);
         } catch (DomainException | Exception $e) {
             return $this->responseUserError($e->getMessage());
         } catch (TypeError $e) {
@@ -62,7 +62,8 @@ class OpportunityController extends Controller
         try {
             $useCase = new LoadOpportunity($this->repository);
             $opportunity = $useCase->load($id, $recruiterId );
-            return $this->responseSuccess($opportunity, 200);
+            $res = $this->oportunityToResponse($opportunity);
+            return $this->responseSuccess($res);
         } catch (DomainException | Exception $e) {
             return $this->responseUserError($e->getMessage(), 400);
         } catch (TypeError $e) {
@@ -93,7 +94,7 @@ class OpportunityController extends Controller
                 new UuidCreator()
             );
             $opportunity = $useCase->create($dto);
-            $res = $this->recruiterToResponse($opportunity);
+            $res = $this->oportunityToResponse($opportunity);
             return $this->responseSuccess($res, 201);
         } catch (DomainException | Exception $e) {
             return $this->responseUserError($e->getMessage(), 400);
@@ -124,7 +125,7 @@ class OpportunityController extends Controller
                 new RecruiterRepository()
             );
             $opportunity = $useCase->execute($dto);
-            $res = $this->recruiterToResponse($opportunity);
+            $res = $this->oportunityToResponse($opportunity);
             return $this->responseSuccess($res);
         } catch (DomainException | Exception $e) {
             return $this->responseUserError($e->getMessage(), 400);
@@ -152,7 +153,7 @@ class OpportunityController extends Controller
         }
     }
 
-    private function recruiterToResponse(Opportunity $item): array {
+    private function oportunityToResponse(Opportunity $item): array {
         return [
             'id' => $item->getId(),
             'title' => $item->getTitle(),

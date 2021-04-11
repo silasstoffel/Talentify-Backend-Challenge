@@ -69,7 +69,7 @@ class OpportunityRepository implements OpportunityRepositoryInterface
 
     public function findAll(array $filters = []): array
     {
-        if (count($filters)) {
+        if (!count($filters)) {
             $opportunities = OpportunityModel::all();
         } else {
             $opportunities = OpportunityModel::where($filters)->get();
