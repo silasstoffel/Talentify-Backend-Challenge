@@ -45,7 +45,7 @@
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
-        "create-swagger": "vendor\\bin\\openapi --output public\\api-docs\\swagger.json .\\docs\\swagger",
+        "create-swagger": "vendor/bin/openapi --output public/api-docs/swagger.json ./docs/swagger",
         "tests-windows": "vendor\\bin\\phpunit",
         "tests": "./vendor/bin/phpunit"
     }

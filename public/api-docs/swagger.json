@@ -1,0 +1,659 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Talentify Backend Challenge",
+        "description": "Documentação dos serviços disponibilizados via API.",
+        "version": "1.0"
+    },
+    "paths": {
+        "/auth": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Efetua autenticação",
+                "description": "Efetua autenticação da sua conta na plataforma YouPay.",
+                "requestBody": {
+                    "description": "Auth",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Login"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Autenticação efetuada com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResult"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Sem autorização.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Detalhamento do erro.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/recruiters": {
+            "post": {
+                "tags": [
+                    "Recruiters"
+                ],
+                "summary": "Cadastro de recrutador",
+                "description": "Cadastra um recrutador.",
+                "requestBody": {
+                    "description": "Cadastra um recrutador",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Recruiter"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Cadastro efetivadao com sucesso."
+                    },
+                    "401": {
+                        "description": "Sem autorização.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Detalhamento do erro.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/opportunities": {
+            "get": {
+                "tags": [
+                    "Opportunities"
+                ],
+                "summary": "Ler todas oportunidades.",
+                "description": "Carrega todas opportunidades acessada pelo recrutador.",
+                "responses": {
+                    "200": {
+                        "description": "Oportunidades permitidas para recurtador em acesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Opportunity"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Sem autorização.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Detalhamento do erro.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Opportunities"
+                ],
+                "summary": "Cadastra de vagas.",
+                "description": "Cadastra uma vaga. Os atributos company:{} e recruiter:{} não precisam ser preenchidos no cadastro nem na atualização.",
+                "requestBody": {
+                    "description": "Cadastra uma oportunidade",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Opportunity"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Oportunidade criada com sucesso."
+                    },
+                    "401": {
+                        "description": "Sem autorização.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Detalhamento do erro.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ]
+            }
+        },
+        "/v1/opportunities/{opportunity_id}": {
+            "get": {
+                "tags": [
+                    "Opportunities"
+                ],
+                "summary": "Ler uma vaga pelo ID.",
+                "description": "Lê uma vaga pelo ID",
+                "parameters": [
+                    {
+                        "name": "opportunity_id",
+                        "in": "path",
+                        "description": "ID da Vaga",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Oportunidade encontrada com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Opportunity"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Sem autorização.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Detalhamento do erro.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Opportunities"
+                ],
+                "summary": "Atualização de vagas.",
+                "description": "Atualiza uma vaga. Os atributos company:{} e recruiter:{} não precisam ser preenchidos no cadastro nem na atualização.",
+                "parameters": [
+                    {
+                        "name": "opportunity_id",
+                        "in": "path",
+                        "description": "ID da Vaga",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Atualiza uma oportunidade",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Opportunity"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Oportunidade atualizada com sucesso."
+                    },
+                    "401": {
+                        "description": "Sem autorização.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Detalhamento do erro.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Opportunities"
+                ],
+                "summary": "Delete uma vaga.",
+                "description": "Delete uma vaga pelo ID.",
+                "parameters": [
+                    {
+                        "name": "opportunity_id",
+                        "in": "path",
+                        "description": "ID da Vaga",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Oportunidade excluida com sucesso."
+                    },
+                    "401": {
+                        "description": "Sem autorização.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Detalhamento do erro.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ]
+            }
+        },
+        "/jobs": {
+            "get": {
+                "tags": [
+                    "Jobs"
+                ],
+                "summary": "Filtragem de vagas em aberto.",
+                "description": "Filtra as vagas de trabalho em aberto.",
+                "parameters": [
+                    {
+                        "name": "keyword",
+                        "in": "query",
+                        "description": "Busca livre",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "description": "Endereço",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "salary",
+                        "in": "query",
+                        "description": "Salário",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "company",
+                        "in": "query",
+                        "description": "company",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Vagas filtradas.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Opportunity"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Detalhamento do erro.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DefaultErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "DefaultErrorResponse": {
+                "title": "DefaultErrorResponse",
+                "properties": {
+                    "message": {
+                        "description": "Mensagem com detalhe do erro.",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Recruiter": {
+                "title": "Recruiter",
+                "required": [
+                    "email",
+                    "name",
+                    "password",
+                    "company_id"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID universal. Atributo apenas para leitura.",
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "Nome.",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "Senha de acesso. Atributo usado somente ao criar um recrutador",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "Endereço de e-mail.",
+                        "type": "string"
+                    },
+                    "company_id": {
+                        "description": "UUID da companhia vinculada ao recrutador.",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Company": {
+                "title": "Company",
+                "required": [
+                    "id",
+                    "name"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID universal. Atributo apenas para leitura.",
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "Nome.",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Opportunity": {
+                "title": "Opportunity",
+                "required": [
+                    "id",
+                    "name",
+                    "address",
+                    "salary",
+                    "status",
+                    "description"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID universal. Atributo apenas para leitura.",
+                        "type": "string"
+                    },
+                    "title": {
+                        "description": "Título.",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "Descrição.",
+                        "type": "string"
+                    },
+                    "status": {
+                        "description": "Status. valores aceitos: opened, finished e inactive",
+                        "type": "string"
+                    },
+                    "salary": {
+                        "description": "Salário com duas casas decimais e separados por ponto. Exemplo: 5500.00",
+                        "type": "number"
+                    },
+                    "address": {
+                        "description": "Endereço.",
+                        "type": "string"
+                    },
+                    "company": {
+                        "$ref": "#/components/schemas/Company"
+                    },
+                    "recruiter": {
+                        "$ref": "#/components/schemas/Recruiter"
+                    }
+                },
+                "type": "object"
+            },
+            "Login": {
+                "title": "Autenticação",
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "email": {
+                        "description": "E-mail.",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "Senha de acesso.",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "LoginResult": {
+                "title": "Login - Resposta",
+                "properties": {
+                    "account": {
+                        "description": "Dados da conta",
+                        "allOf": [
+                            {
+                                "properties": {
+                                    "name": {
+                                        "description": "Nome do titular da conta.",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "E-mail do titular da conta.",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        ]
+                    },
+                    "token": {
+                        "description": "Token de acesso",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "TransferenciaCriada": {
+                "title": "Transferência Criada",
+                "properties": {
+                    "id": {
+                        "description": "Id da operação.",
+                        "type": "string"
+                    },
+                    "value": {
+                        "description": "valor da operação.",
+                        "type": "number"
+                    },
+                    "created_at": {
+                        "description": "Data hora da operação.",
+                        "type": "string"
+                    },
+                    "payer": {
+                        "description": "Conta pagadora.",
+                        "allOf": [
+                            {
+                                "properties": {
+                                    "id": {
+                                        "description": "ID da conta.",
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "description": "Nome do titular da conta.",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "E-mail do titular da conta.",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        ]
+                    },
+                    "payee": {
+                        "description": "Conta favorecida.",
+                        "allOf": [
+                            {
+                                "properties": {
+                                    "id": {
+                                        "description": "ID da conta.",
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "description": "Nome do titular da conta.",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "E-mail do titular da conta.",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        ]
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "Token": {
+                "type": "http",
+                "name": "Token",
+                "scheme": "bearer"
+            }
+        }
+    }
+}

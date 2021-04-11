@@ -3,9 +3,7 @@
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
+$router->get('/', fn() => redirect('/api-docs/index.html'));
 
 // Create recruiter
 $router->post('recruiters', 'RecruiterController@store');

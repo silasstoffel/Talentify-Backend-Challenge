@@ -57,6 +57,6 @@ class RecruiterController extends Controller
         } catch (TypeError $e) {
             return $this->responseAppError('We are sorry, but for technical reasons it is possible to complete the request.') ;
         }
-        return $this->responseSuccess([], 201);
+        return $this->responseSuccess(null, 201);
     }
 }
