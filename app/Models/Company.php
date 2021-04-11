@@ -15,4 +15,5 @@ class Company extends Model implements AuthenticatableContract, AuthorizableCont
 
     public $incrementing = false;
     protected $table = 'companies';
+    protected $fillable = ['id', 'name'];
 }

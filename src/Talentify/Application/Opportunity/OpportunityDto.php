@@ -96,7 +96,7 @@ class OpportunityDto
     }
 
     /**
-     * @return float
+     * @return string
      */
     public function getAddress(): string
     {

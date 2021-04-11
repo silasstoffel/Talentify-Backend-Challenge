@@ -46,6 +46,7 @@ class AuthServiceProvider extends ServiceProvider
             try {
                 $serviceToken->validate($jwt);
                 $account = $serviceToken->getAccountValidate();
+                //var_export($account);
                 if ($account instanceof Account) {
                     return new GenericUser([
                         'id' => $account->getId(),

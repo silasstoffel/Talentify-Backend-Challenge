@@ -7,6 +7,7 @@ abstract class TestCase extends BaseTestCase
 
     protected $_login    = '';
     protected $_password = '';
+    private ?string $token = null;
 
     /**
      * Creates the application.
@@ -20,12 +21,17 @@ abstract class TestCase extends BaseTestCase
 
     protected function createToken()
     {
-        $data = ['login' => $this->_login, 'password' => $this->_password];
+        $this->token = null;
+        $data = ['email' => $this->_login, 'password' => $this->_password];
         $response = $this->json('POST', '/auth', $data);
 
         $body = $response->response->getOriginalContent();
-        $token = isset($body['token']) ? $body['token'] : null;
-
+        $token = $body['token'] ?? null;
+        $this->token = $token;
         return ['Authorization' => 'Bearer ' . $token];
+    }
+
+    protected function getCurrentToken() {
+        return $this->token;
     }
 }

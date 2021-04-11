@@ -75,7 +75,6 @@ class OpportunityController extends Controller
     {
         $account = Auth::user();
         $recruiterId = $account->key;
-
         $dto = new OpportunityDto(
             null,
             $request->title,
