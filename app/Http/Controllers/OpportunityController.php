@@ -45,7 +45,7 @@ class OpportunityController extends Controller
             /** @var Opportunity[] $items */
             $items = $opportunities->list($recruiterId);
             foreach ($items as $item) {
-                $response[] = $this->oportunityToResponse($item);
+                $response[] = $this->opportunityToResponse($item);
             }
             return $this->responseSuccess($response);
         } catch (DomainException | Exception $e) {
@@ -62,7 +62,7 @@ class OpportunityController extends Controller
         try {
             $useCase = new LoadOpportunity($this->repository);
             $opportunity = $useCase->load($id, $recruiterId );
-            $res = $this->oportunityToResponse($opportunity);
+            $res = $this->opportunityToResponse($opportunity);
             return $this->responseSuccess($res);
         } catch (DomainException | Exception $e) {
             return $this->responseUserError($e->getMessage(), 400);
@@ -94,7 +94,7 @@ class OpportunityController extends Controller
                 new UuidCreator()
             );
             $opportunity = $useCase->create($dto);
-            $res = $this->oportunityToResponse($opportunity);
+            $res = $this->opportunityToResponse($opportunity);
             return $this->responseSuccess($res, 201);
         } catch (DomainException | Exception $e) {
             return $this->responseUserError($e->getMessage(), 400);
@@ -125,7 +125,7 @@ class OpportunityController extends Controller
                 new RecruiterRepository()
             );
             $opportunity = $useCase->execute($dto);
-            $res = $this->oportunityToResponse($opportunity);
+            $res = $this->opportunityToResponse($opportunity);
             return $this->responseSuccess($res);
         } catch (DomainException | Exception $e) {
             return $this->responseUserError($e->getMessage(), 400);
@@ -153,7 +153,7 @@ class OpportunityController extends Controller
         }
     }
 
-    private function oportunityToResponse(Opportunity $item): array {
+    private function opportunityToResponse(Opportunity $item): array {
         return [
             'id' => $item->getId(),
             'title' => $item->getTitle(),
