@@ -27,7 +27,7 @@ Para facilitar o ambiente de execução do projeto, pode ser levantado o ambient
 - Navegar até `cd /var/www`.
 - Instalar dependências: `composer install`.
 - Rodar migrations: `php artisan migrate`.
-- Rodar seeders: `php artisan db:seed`. O comando cria uma conta inicial com um saldo R$ 500,00.
+- Rodar seeders: `php artisan db:seed`. O comando irá criar alguns registros de companhias e recrutadores.
 - Acessar `http://localhost:8080`
 
 ### Setup Manual
@@ -36,12 +36,12 @@ Para facilitar o ambiente de execução do projeto, pode ser levantado o ambient
 - Copiar o `.env.example` e renomear para `.env`.
 - Copiar o `.env.example`, renomear a cópia para `.env` e parametrizar conforme necessidade.
 - Rodar migrations: `php artisan migrate`.
-- Rodar seeders: `php artisan db:seed`. O comando cria uma conta inicial com um saldo R$ 500,00.s
+- Rodar seeders: `php artisan db:seed`. O comando irá criar alguns registros de companhias e recrutadores.
 - Levantar um servidor para rodar o projeto: `php -S localhost:8080 -t public`
 
 ### Considerações do Setup
 
-Para começar a usar o projeto, serão criados alguns cadastros iniciais:
+Para começar a usar o projeto, serão criados alguns cadastros iniciais se todos os comandos foram criados:
 
 Companhias
 
