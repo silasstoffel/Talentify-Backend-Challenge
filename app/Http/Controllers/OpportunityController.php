@@ -9,6 +9,8 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Talentify\Application\Opportunity\CreateOpportunity;
+use Talentify\Application\Opportunity\DeleteOportunityDto;
+use Talentify\Application\Opportunity\DeleteOpportunity;
 use Talentify\Application\Opportunity\ListOpportunities;
 use Talentify\Application\Opportunity\LoadOpportunity;
 use Talentify\Application\Opportunity\OpportunityDto;
@@ -127,7 +129,25 @@ class OpportunityController extends Controller
         } catch (DomainException | Exception $e) {
             return $this->responseUserError($e->getMessage(), 400);
         } catch (TypeError $e) {
-            throw $e;
+            return $this->responseAppError('We are sorry, but for technical reasons it is possible to complete the request.');
+        }
+    }
+
+    public function delete(string $id)
+    {
+        $account = Auth::user();
+        $recruiterId = $account->key;
+        $opportunityDto = new DeleteOportunityDto($id, $recruiterId);
+        try {
+            $useCase = new DeleteOpportunity(
+                new OpportunityRepository(),
+                new RecruiterRepository()
+            );
+            $useCase->execute($opportunityDto);
+            return $this->responseSuccess(null,204);
+        } catch (DomainException | Exception $e) {
+            return $this->responseUserError($e->getMessage(), 400);
+        } catch (TypeError $e) {
             return $this->responseAppError('We are sorry, but for technical reasons it is possible to complete the request.');
         }
     }

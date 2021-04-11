@@ -23,6 +23,7 @@ $router->group($v1, function () use ($router) {
         $router->get('/{id}', 'OpportunityController@get');
         $router->post('/', 'OpportunityController@store');
         $router->put('/{id}', 'OpportunityController@update');
+        $router->delete('/{id}', 'OpportunityController@delete');
     });
 
 });
