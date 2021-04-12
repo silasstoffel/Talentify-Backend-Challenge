@@ -2,18 +2,26 @@
 
 Desafio para programador backend
 
-## Objetivo
-
-Resolver o desafio usando boas práticas de codificação como: SOLID, DDD, TDD, Clean Architecture, Repository e principalmente códigos testáveis (Testes de Unidade e testes de Integração). O principal objetivo se tratando do ponto de codificação é separar o _core_ da aplicação para não fique tão acoplado ou inteiramente dependentes de libs. Para tentar resolver o problema,  foram escolhidos princípios de DDD, Clean Architecture e arquitetura hexagonal.
-
-A aplicação usa [Lumen](https://lumen.laravel.com/) como framework e para camada de infra no caso banco de dados, está sendo [Eloquent ORM](https://laravel.com/docs/8.x/eloquent). Porém independente detalhes  e aspectos técnicos, o core da aplicação fica flexível a mudanças de frameworks e banco de dados.
-
-
 ## Requisitos
 
 -   [PHP 7.4](https://www.php.net/)
 -   [Composer](https://getcomposer.org/)
 -   [Extensão de PDO MySQL e SQLite](https://www.php.net/manual/en/pdo.installation.php) para o banco escolhido
+
+## Arquitetura
+
+O objetivo é criar uma solução com menor acomplamento possível e sem que core da aplicação não fique dependente de frameworks ou complexidade tecnológica.
+
+Nesse desafio, framework utilizado é lumen, ele é responsável por receber as chamadas e interfaciar com camadas que não são fortamente acompladas a frameworks de complexidade de domínio técnico.
+
+O Controller do Lumen faz chamadas a camada de aplicação injetando todas as dependências necessárias, a camada de aplicação por sua vez chamada as regras de negócios do domínio.
+
+Dessa forma é criado uma certa "independencia" de frameworks, banco de dados e complexidade técnicas.
+
+Abaixo segue um diagrama explicando a divisão de camadas:
+
+![Arquitetura](./docs/assets/diagram.png?raw=true)
+
 
 ## Setup
 
